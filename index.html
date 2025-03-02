@@ -42,7 +42,7 @@
       // Создаём источник аудио и GainNode для усиления
       const track = audioCtx.createMediaElementSource(audioElement);
       const gainNode = audioCtx.createGain();
-      gainNode.gain.value = 2.0; // Усиление звука в 2 раза
+      gainNode.gain.value = 6.0; // Усиление звука в 2 раза
 
       // Подключаем цепочку: источник -> усилитель -> аудиовыход
       track.connect(gainNode).connect(audioCtx.destination);
