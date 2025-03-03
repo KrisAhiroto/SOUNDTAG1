@@ -30,35 +30,28 @@
 <body>
   <button id="siteButton">Перейти на сайт</button>
   
-  <audio id="audioPlayer" src="mysound.mp3"></audio>
+  <audio id="audioPlayer" src="mysound.mp3" preload="auto"></audio>
   
   <script>
-    // Воспроизведение звука при клике в любой части страницы
     document.addEventListener('click', function() {
       const audioElement = document.getElementById('audioPlayer');
-      
-      // Создаем AudioContext один раз при первом клике
+
       if (!audioElement.audioCtx) {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         const audioCtx = new AudioContext();
-        
-        // Создаем источник аудио и GainNode для усиления
+
         const track = audioCtx.createMediaElementSource(audioElement);
         const gainNode = audioCtx.createGain();
         gainNode.gain.value = 2.0; // Усиление звука в 2 раза
-        
-        // Подключаем цепочку: источник -> усилитель -> аудиовыход
+
         track.connect(gainNode).connect(audioCtx.destination);
-        
-        // Сохраняем AudioContext в элементе аудио для избежания повторного создания
         audioElement.audioCtx = audioCtx;
       }
-      
-      // Перематываем звук в начало и запускаем воспроизведение
-      audioElement.currentTime = 0;
-      audioElement.play().catch(function(e) {
-        console.error("Ошибка воспроизведения:", e);
-      });
+
+      // Проверяем, играет ли уже звук, если нет — запускаем
+      if (audioElement.paused) {
+        audioElement.play().catch(e => console.error("Ошибка воспроизведения:", e));
+      }
     });
   </script>
 </body>
